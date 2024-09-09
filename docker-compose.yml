@@ -1,0 +1,59 @@
+services:
+
+  db:
+    platform: linux/amd64
+    image: postgis/postgis:13-3.2-alpine
+    ports:
+      - "5431:5432"
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DBNAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  actinia-core:
+    platform: linux/amd64
+    image: mundialis/actinia:2.9.1
+    volumes:
+      - ./actinia-core-data/grassdb:/actinia_core/grassdb:Z
+      - ./actinia-core-data/userdata:/actinia_core/userdata
+      - ./actinia-core-data/pgpass:/mnt/pgpass:Z
+      - ./actinia-core-data/geodata_dir:/mnt/geodata:Z
+      - ./actinia-core-data/workspace/temp_db:/actinia_core/workspace/temp_db
+      - ./actinia-core-data/workspace/tmp:/actinia_core/workspace/tmp
+      - ./actinia-core-data/resources:/actinia_core/resources
+
+      # - *services-volume
+    restart: always
+    ports:
+      - "8088:8088"
+      - "5439:5432"
+    depends_on:
+      - redis
+      - db
+
+  redis:
+    image: redis:5.0.4-alpine
+    volumes:
+      - ./redis_data:/data
+    environment:
+      - REDIS_PASS_FILE=/data/config/.redis
+    command: [
+      "sh", "-c",
+      '
+      docker-entrypoint.sh
+      "/data/config/redis.conf"
+      --requirepass "$$(cat $$REDIS_PASS_FILE)"
+      '
+    ]
+
+  titiler:
+    platform: linux/amd64
+    image: ghcr.io/developmentseed/titiler:0.18.6
+    ports:
+      - 8000:8000
+    depends_on:
+      - actinia-core
+    volumes:
+      - ./actinia-core-data/geodata_dir:/mnt/geodata:Z
+      - ./actinia-core-data/resources:/actinia_core/resources
