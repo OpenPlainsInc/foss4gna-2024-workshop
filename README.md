@@ -21,8 +21,8 @@ curl -X GET "http://localhost:8088/api/v3/version" -H  "accept: application/json
 ## Install sample data
 
 ```bash
-curl -SL https://grass.osgeo.org/sampledata/north_carolina/nc_basic_spm_grass7.zip > nc_basic_spm_grass7.zip
-unzip -qq nc_basic_spm_grass7.zip
-mv nc_basic_spm_grass7 actinia-core-data/grassdb
-rm nc_basic_spm_grass7.zip
+curl -SL https://grass.osgeo.org/sampledata/north_carolina/nc_spm_08_grass7.zip > nc_spm_08_grass7.zip
+unzip -qq nc_spm_08_grass7.zip
+mv nc_spm_08_grass7 actinia-core-data/grassdb
+rm nc_spm_08_grass7.zip
 ```
