@@ -4,6 +4,8 @@ Materials for FOSS4GNA workshop - Developing Web Applications with GRASS GIS
 
 ## 1. Install Docker
 
+[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+
 ## 2. Run Docker Compose
 
 ```bash 
