@@ -8,7 +8,7 @@ Materials for FOSS4GNA workshop - Developing Web Applications with GRASS GIS
 
 ## 2. Run Docker Compose
 
-```bash 
+```bash
 docker compose up
 ```
 

@@ -167,3 +167,4 @@ actinia-core-data/userdata
 actinia-core-data/workspace
 
 redis_data/dump.rdb
+valkey_data/dump.rdb
